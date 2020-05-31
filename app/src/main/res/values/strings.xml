@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TIMEWAYS</string>
+    <string name="text_enter_email">Nhập email</string>
+    <string name="text_enter_password">Nhập password</string>
+    <string name="text_login">Đăng nhập</string>
+    <string name="facebook_app_id">194270715358437</string>
+    <string name="fb_login_protocol_scheme">fb194270715358437</string>
+</resources>

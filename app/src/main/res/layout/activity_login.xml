@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutLogin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background_custom">
+
+    <TextView
+        android:id="@+id/textViewTieuDeDangNhap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="275dp"
+        android:text="Đăng nhập"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextEnterEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTieuDeDangNhap"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="64dp"
+        android:hint="@string/text_enter_email"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/login_font_color" />
+
+    <EditText
+        android:id="@+id/editTextEnterPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextEnterEmail"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="64dp"
+        android:hint="@string/text_enter_password"
+        android:inputType="textPassword"
+        android:textColor="@color/login_font_color" />
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextEnterPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/text_login" />
+
+    <TextView
+        android:id="@+id/textViewTaiKhoanKhac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="Đăng nhập bằng tài khoản" />
+
+    <ImageButton
+        android:id="@+id/imageButtonLoginWithFacebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTaiKhoanKhac"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="165dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:src="@drawable/facebook" />
+
+    <ImageButton
+        android:id="@+id/imageButtonLoginWithGoogle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTaiKhoanKhac"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="160dp"
+        android:background="@null"
+        android:src="@drawable/google_plus" />
+
+    <TextView
+        android:id="@+id/textViewGoiYDangKy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageButtonLoginWithFacebook"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="25dp"
+        android:text="Bạn chưa có tài khoản?"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/textViewRegistration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageButtonLoginWithFacebook"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="25dp"
+        android:layout_toRightOf="@id/textViewGoiYDangKy"
+        android:text="Đăng ký"
+        android:textColor="@color/white_color"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>

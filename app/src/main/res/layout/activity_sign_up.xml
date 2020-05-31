@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background_custom">
+
+    <TextView
+        android:id="@+id/textViewTieuDeDangNhap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="275dp"
+        android:text="Đăng ký"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextEnterEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTieuDeDangNhap"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="64dp"
+        android:hint="@string/text_enter_email"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/login_font_color" />
+
+    <EditText
+        android:id="@+id/editTextEnterPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextEnterEmail"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="64dp"
+        android:hint="@string/text_enter_password"
+        android:inputType="textPassword"
+        android:textColor="@color/login_font_color" />
+
+    <EditText
+        android:id="@+id/editTextRetypePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextEnterPassword"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="64dp"
+        android:hint="@string/text_enter_password"
+        android:inputType="textPassword"
+        android:textColor="@color/login_font_color" />
+
+    <Button
+        android:id="@+id/buttonSignUpAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextRetypePassword"
+        android:layout_marginLeft="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="30dp"
+        android:text="Đăng ký" />
+
+    <Button
+        android:id="@+id/buttonBackToLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextRetypePassword"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="30dp"
+        android:text="Quay lại"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="100dp"/>
+
+
+</RelativeLayout>

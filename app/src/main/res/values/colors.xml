@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="username_login_color">#66a3d2</color>
+    <color name="edittext_login_color">#E6E6E6</color>
+    <color name="login_font_color">#ffffff</color>
+    <color name="white_color">#fff</color>
+    <color name="main_color">#FF5722</color>
+    <color name="dialog_title_color">#18B364</color>
+</resources>

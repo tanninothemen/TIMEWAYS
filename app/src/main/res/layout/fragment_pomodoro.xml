@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#c3b3"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Nhấn vào quả cà chua để bắt đầu phiên Pomodoro"
+        android:textStyle="bold"/>
+
+    <ImageView
+        android:id="@+id/imageViewPomodoroClock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/icon_pomodoro_clock" />
+
+    <TextView
+        android:id="@+id/textViewPomodoroTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageViewPomodoroClock"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:layout_marginTop="-146dp"
+        android:text="25:00"
+        android:textSize="30sp"
+        android:textStyle="bold"/>
+
+    <!-- visible/invisible (if you need) -->
+    <Button
+        android:visibility="visible"
+        android:id="@+id/buttonFinishTheWork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageViewPomodoroClock"
+        android:layout_toLeftOf="@id/textViewPomodoroTime"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="25dp"
+        android:text="Hoàn thành" />
+
+    <!-- visible (if you need) -->
+    <Button
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@id/textViewPomodoroTime"
+        android:visibility="visible"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/buttonPauseTheWork"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageViewPomodoroClock"
+        android:layout_centerHorizontal="true"
+        android:text="Tạm hoãn" />
+
+    <TextView
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/textViewTitlePomodoroWorkList"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonPauseTheWork"
+        android:text="Danh sách Pomodoro của bạn"/>
+
+    <ListView
+        android:layout_margin="5dp"
+        android:id="@+id/listViewPomodoroWorkList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTitlePomodoroWorkList"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
+</RelativeLayout>

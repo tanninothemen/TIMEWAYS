@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "320083435992",
+    "firebase_url": "https://timeways-9114c.firebaseio.com",
+    "project_id": "timeways-9114c",
+    "storage_bucket": "timeways-9114c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320083435992:android:071a484b7f2be0e33f52ad",
+        "android_client_info": {
+          "package_name": "vn.com.newc.timeways"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320083435992-jkgahaheaa2bs46mk1kpgvj3avs7sgba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoCAMFK9NPYA_tcPyUIlR2-ZiJJwtyaiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "320083435992-jkgahaheaa2bs46mk1kpgvj3avs7sgba.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
