@@ -3,67 +3,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="5dp"
-    android:orientation="horizontal"
-    android:weightSum="10">
+    android:weightSum="10"
+    android:gravity="center"
+    android:orientation="horizontal">
 
-    <ImageView
-        android:layout_marginTop="10dp"
-        android:id="@+id/imageViewToDoListWorkStatus"
+    <CheckBox
+        android:layout_gravity="left"
+        android:layout_weight="1"
+        android:id="@+id/checkboxToDoListWorkStatus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:padding="5dp"
-        android:src="@drawable/check" />
+        android:padding="5dp" />
 
     <LinearLayout
+        android:padding="5dp"
+        android:layout_weight="8"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="6"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textViewToDoListWorkContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             android:text="Work Content"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <TextView
+            android:textSize="15sp"
+            android:textStyle="italic"
             android:id="@+id/textViewToDoListWorkDue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:padding="5dp"
             android:text="Work Due" />
 
     </LinearLayout>
 
-    <LinearLayout
+
+
+    <ImageButton
+        android:layout_weight="1"
+        android:id="@+id/imageButtonDeleteToDoList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2">
-
-        <ImageButton
-            android:id="@+id/imageButtonEditToDoList"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:padding="5dp"
-            android:src="@drawable/edit_row_todolist" />
-
-        <ImageButton
-            android:id="@+id/imageButtonDeleteToDoList"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:layout_weight="1"
-            android:background="@null"
-            android:padding="5dp"
-            android:src="@drawable/delete_row_todolist" />
-    </LinearLayout>
-
+        android:layout_gravity="right"
+        android:background="@null"
+        android:padding="5dp"
+        android:src="@drawable/delete_row_todolist" />
 
 </LinearLayout>

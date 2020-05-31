@@ -8,5 +8,11 @@
     <color name="login_font_color">#ffffff</color>
     <color name="white_color">#fff</color>
     <color name="main_color">#FF5722</color>
+    <color name="main_color_2">#ffc175</color>
+    <color name="main_color_3">#ec6c99</color>
+    <color name="main_color_4">#afef6e</color>
+    <color name="main_color_5">#61a0c6</color>
+    <color name="main_color_6">#60d097</color>
     <color name="dialog_title_color">#18B364</color>
+    <color name="black_color">#000</color>
 </resources>

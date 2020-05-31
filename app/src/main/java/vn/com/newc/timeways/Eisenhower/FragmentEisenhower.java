@@ -226,7 +226,7 @@ public class FragmentEisenhower extends Fragment implements AdapterView.OnItemCl
         btnCompleteWorkList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handleCompleteWork(workID,workName,workType,arrayListEdit, arrayAdapterEdit);
+                handleCompleteWork(workID, workName, workType, arrayListEdit, arrayAdapterEdit);
             }
         });
         btnChangeTypeList.setOnClickListener(new View.OnClickListener() {
@@ -238,21 +238,21 @@ public class FragmentEisenhower extends Fragment implements AdapterView.OnItemCl
         btnDeletWorkList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handleDeleteWork(workID,workName,workType,arrayListEdit,arrayAdapterEdit);
+                handleDeleteWork(workID, workName, workType, arrayListEdit, arrayAdapterEdit);
             }
         });
         dialogEditEisenhower.show();
     }
 
     private void handleDeleteWork(final String workID, final String workName, final String workType, final ArrayList<EisenhowerWork> arrayListEdit, final EIsenhowerAdaper arrayAdapterEdit) {
-        final AlertDialog.Builder alertDelete=new AlertDialog.Builder(context);
+        final AlertDialog.Builder alertDelete = new AlertDialog.Builder(context);
         alertDelete.setTitle("Xóa công việc");
         alertDelete.setMessage("Bạn có chắc chắn xóa công việc này không?");
         alertDelete.setPositiveButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mData.child("Eisenhower").child(userID).child(workType).child(workID).removeValue();
-                Toast.makeText(context, "Đã xóa công việc "+workName, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Đã xóa công việc " + workName, Toast.LENGTH_SHORT).show();
                 arrayListEdit.clear();
                 initEisenhowerListView(arrayListEdit, arrayAdapterEdit, workType);
                 dialogEditEisenhower.dismiss();
@@ -269,18 +269,18 @@ public class FragmentEisenhower extends Fragment implements AdapterView.OnItemCl
 
     //xử lý hoàn thành công việc
     private void handleCompleteWork(String workID, final String workNameEdit, final String workTypeEdit, final ArrayList<EisenhowerWork> arrayListEdit, final EIsenhowerAdaper arrayAdapterEdit) {
-        if (workNameEdit.isEmpty()){
+        if (workNameEdit.isEmpty()) {
             Toast.makeText(context, "Bạn không được để trống tên công việc", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             mData.child("Eisenhower").child(userID).child(workTypeEdit).child(workID).child("workName").setValue(workNameEdit + "(hoàn thành)", new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                    if (databaseError==null){
-                        Toast.makeText(context, "Bạn đã hoàn thành công việc "+workNameEdit, Toast.LENGTH_SHORT).show();
+                    if (databaseError == null) {
+                        Toast.makeText(context, "Bạn đã hoàn thành công việc " + workNameEdit, Toast.LENGTH_SHORT).show();
                         dialogEditEisenhower.dismiss();
                         arrayListEdit.clear();
                         initEisenhowerListView(arrayListEdit, arrayAdapterEdit, workTypeEdit);
-                    }else {
+                    } else {
                         Toast.makeText(context, "Xảy ra lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -291,7 +291,7 @@ public class FragmentEisenhower extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()){
+        switch (parent.getId()) {
             case R.id.spinnerEisenhowerTypeWork:
                 workType = parent.getItemAtPosition(position).toString();
                 break;
@@ -313,25 +313,25 @@ public class FragmentEisenhower extends Fragment implements AdapterView.OnItemCl
                 String workIdDO = arrayListEisenhowerDO.get(position).workID;
                 String workNameDO = arrayListEisenhowerDO.get(position).workName;
                 String workTypeDO = arrayListEisenhowerDO.get(position).workType;
-                openDialogEditWork(workIdDO,workNameDO,workTypeDO,arrayListEisenhowerDO,arrayAdapterDO);
+                openDialogEditWork(workIdDO, workNameDO, workTypeDO, arrayListEisenhowerDO, arrayAdapterDO);
                 break;
             case R.id.listViewEisenhowerDECIDE:
                 String workIdDECIDE = arrayListEisenhowerDECIDE.get(position).workID;
                 String workNameDECIDE = arrayListEisenhowerDECIDE.get(position).workName;
                 String workTypeDECIDE = arrayListEisenhowerDECIDE.get(position).workType;
-                openDialogEditWork(workIdDECIDE, workNameDECIDE,workTypeDECIDE,arrayListEisenhowerDECIDE,arrayAdapterDECIDE);
+                openDialogEditWork(workIdDECIDE, workNameDECIDE, workTypeDECIDE, arrayListEisenhowerDECIDE, arrayAdapterDECIDE);
                 break;
             case R.id.listViewEisenhowerDELEGATE:
                 String workIdDELEGATE = arrayListEisenhowerDELEGATE.get(position).workID;
                 String workNameDELEGATE = arrayListEisenhowerDELEGATE.get(position).workName;
                 String workTypeDELEGATE = arrayListEisenhowerDELEGATE.get(position).workType;
-                openDialogEditWork(workIdDELEGATE, workNameDELEGATE,workTypeDELEGATE,arrayListEisenhowerDELEGATE,arrayAdapterDELEGATE);
+                openDialogEditWork(workIdDELEGATE, workNameDELEGATE, workTypeDELEGATE, arrayListEisenhowerDELEGATE, arrayAdapterDELEGATE);
                 break;
             case R.id.listViewEisenhowerDELETE:
                 String workIdDELETE = arrayListEisenhowerDELETE.get(position).workID;
                 String workNameDELETE = arrayListEisenhowerDELETE.get(position).workName;
                 String workTypeDELETE = arrayListEisenhowerDELETE.get(position).workType;
-                openDialogEditWork(workIdDELETE, workNameDELETE,workTypeDELETE,arrayListEisenhowerDELETE,arrayAdapterDELETE);
+                openDialogEditWork(workIdDELETE, workNameDELETE, workTypeDELETE, arrayListEisenhowerDELETE, arrayAdapterDELETE);
                 break;
         }
     }

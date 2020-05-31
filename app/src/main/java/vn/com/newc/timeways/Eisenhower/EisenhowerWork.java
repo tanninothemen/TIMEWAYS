@@ -14,4 +14,6 @@ public class EisenhowerWork {
         this.workType = workType;
     }
 
+
+
 }

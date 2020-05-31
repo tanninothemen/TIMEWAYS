@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,27 +8,37 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/dialog_title_color"
+        android:background="@color/black_color"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Thêm công việc"
-        android:textColor="@color/white_color"
-        android:textSize="30sp"
+        android:text="@string/todolist_work_title_dialog"
+        android:textColor="@color/main_color_2"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/editTextAddWorkContentDialog"
+        android:textSize="15sp"
+        android:id="@+id/editTextToDoListAddWorkContentDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:hint="Nhập nội dung công việc" />
+        android:hint="@string/todolist_work_name_hint" />
 
     <EditText
-        android:id="@+id/editTextAddWorkDueDialog"
+        android:textSize="15sp"
+        android:id="@+id/editTextToDoListAddWorkDateDueDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:hint="Nhập thời gian hết hạn công việc" />
+        android:hint="@string/todolist_work_date_due_hint" />
+
+    <EditText
+        android:textSize="15sp"
+        android:id="@+id/editTextToDoListAddWorkTimeDueDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="@string/todolist_work_time_due_hint" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,16 +46,26 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/buttonAddWorkToToDoList"
+            android:textSize="15sp"
+            android:id="@+id/buttonToDoListAddWork"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thêm công việc" />
+            android:text="@string/todolist_button_add_work_dialog"
+            android:textColor="@color/black_color"
+            app:backgroundTint="@color/main_color_2"
+            android:textStyle="bold"/>
 
         <Button
-            android:id="@+id/buttonCancelWorkToDoList"
+            android:textSize="15sp"
+            android:id="@+id/buttonToDoListCancelWork"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hủy" />
+            android:text="@string/todolist_button_cancel_add_work_dialog"
+            android:textColor="@color/black_color"
+            app:backgroundTint="@color/main_color_2"
+            android:textStyle="bold"/>
     </LinearLayout>
 
 </LinearLayout>

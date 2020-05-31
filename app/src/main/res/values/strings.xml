@@ -5,4 +5,10 @@
     <string name="text_login">Đăng nhập</string>
     <string name="facebook_app_id">194270715358437</string>
     <string name="fb_login_protocol_scheme">fb194270715358437</string>
+    <string name="todolist_work_title_dialog">Thêm công việc</string>
+    <string name="todolist_work_name_hint">Nhập nội dung công việc</string>
+    <string name="todolist_work_date_due_hint" >Nhập ngày đáo hạn công việc</string>
+    <string name="todolist_work_time_due_hint">Nhập thời gian đáo hạn công việc</string>
+    <string name="todolist_button_add_work_dialog">Thêm công việc</string>
+    <string name="todolist_button_cancel_add_work_dialog">Hủy</string>
 </resources>

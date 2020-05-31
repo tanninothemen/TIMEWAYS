@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10">
 
-    <ListView
-        android:layout_marginTop="10dp"
-        android:id="@+id/listViewToDoList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9"></ListView>
-
-    <ImageButton
-        android:background="#26C6DA"
-        android:id="@+id/imageButtonAddWorkToDoList"
+    <Spinner
+        android:id="@+id/spinnerToDoListStatusWork"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:src="@drawable/add_button" />
+        android:background="@color/main_color_2"
+        android:paddingLeft="25dp" />
 
+    <ListView
+        android:id="@+id/listViewToDoList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:layout_weight="8" />
+
+    <ImageButton
+        android:id="@+id/imageButtonAddWorkToDoList"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:src="@drawable/round_add_circle_black_18dp"
+        app:backgroundTint="@color/main_color_2" />
 </LinearLayout>
