@@ -11,17 +11,17 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import java.util.List;
 
 import vn.com.newc.timeways.R;
 
-public class ToDoListWorkAdapter extends BaseAdapter{
-
+public class ToDoListWorkCompleteAdapter extends BaseAdapter {
     private Context context;
     private int layout;
     private List<ToDoListWork> toDoListWorkList;
 
-    public ToDoListWorkAdapter(Context context, int layout, List<ToDoListWork> toDoListWorkList) {
+    public ToDoListWorkCompleteAdapter(Context context, int layout, List<ToDoListWork> toDoListWorkList) {
         this.context = context;
         this.layout = layout;
         this.toDoListWorkList = toDoListWorkList;
@@ -42,7 +42,7 @@ public class ToDoListWorkAdapter extends BaseAdapter{
         return position;
     }
 
-    private class ViewHolder {
+    public class ViewHolder {
         CheckBox ckbWorkStatus;
         TextView tvWorkContent, tvWorkDue;
         ImageButton imgbtDeleteWork;
@@ -50,7 +50,7 @@ public class ToDoListWorkAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final ViewHolder viewHolder;
+        ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -74,28 +74,30 @@ public class ToDoListWorkAdapter extends BaseAdapter{
         } else {
             viewHolder.tvWorkDue.setText("Ngày đáo hạn: " + toDoListWork.workDateDue + " - " + toDoListWork.WorkTimeDue);
         }
+        viewHolder.ckbWorkStatus.setChecked(true);
+        viewHolder.ckbWorkStatus.setEnabled(false);
         viewHolder.ckbWorkStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (viewHolder.ckbWorkStatus.isChecked()){
-                    final AlertDialog.Builder alertCompleteWork=new AlertDialog.Builder(context);
-                    alertCompleteWork.setTitle("Hoàn thành công việc");
-                    alertCompleteWork.setMessage("Bạn xác nhận đã hoàn thành công việc?");
-                    alertCompleteWork.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            FragmentToDoList.changeStatusToDoList(toDoListWork, toDoListWork.workID);
-                        }
-                    });
-                    alertCompleteWork.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            viewHolder.ckbWorkStatus.setChecked(false);
-                            dialog.cancel();
-                        }
-                    });
-                    alertCompleteWork.show();
-                }
+//                if (viewHolder.ckbWorkStatus.isChecked()){
+//                    final AlertDialog.Builder alertCompleteWork=new AlertDialog.Builder(context);
+//                    alertCompleteWork.setTitle("Hoàn thành công việc");
+//                    alertCompleteWork.setMessage("Bạn xác nhận đã hoàn thành công việc?");
+//                    alertCompleteWork.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            FragmentToDoList.changeStatusToDoList(toDoListWork, toDoListWork.workID);
+//                        }
+//                    });
+//                    alertCompleteWork.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            viewHolder.ckbWorkStatus.setChecked(false);
+//                            dialog.cancel();
+//                        }
+//                    });
+//                    alertCompleteWork.show();
+//                }
             }
         });
 

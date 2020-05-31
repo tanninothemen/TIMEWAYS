@@ -6,14 +6,13 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.format.Time;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -45,12 +44,14 @@ import java.util.Locale;
 
 import vn.com.newc.timeways.R;
 
-public class FragmentToDoList extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class FragmentToDoList extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
     private View view;
     private ListView lvToDoList;
-    private ArrayList<ToDoListWork> toDoListWorkArrayList;
-    private ToDoListWorkAdapter toDoListWorkAdapter;
+    public static ArrayList<ToDoListWork> toDoListWorkArrayList;
+    public static ArrayList<ToDoListWork> toDoListWorkCompleteArrayList;
+    public static ToDoListWorkAdapter toDoListWorkAdapter;
+    public static ToDoListWorkCompleteAdapter toDoListWorkCompleteAdapter;
     private Dialog dialogAddToDoList, dialogUpdateToDoList;
     private EditText edtAddWorkDateDue, edtAddWorkTimeDue, edtUpdateWorkDue, edtAddWorkContent, edtUpdateWorkContent;
     private Button btnAddWorkToList, btnUpdateWorkToList;
@@ -58,10 +59,10 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
     private TimePickerDialog timePickerDialog;
     private DatePickerDialog datePickerDialog;
     private Calendar calendarAddDate, calendarAddTime, calendarUpdate;
-    private FirebaseAuth mAuth;
-    private FirebaseUser user;
-    private String userID;
-    private DatabaseReference mData;
+    public static FirebaseAuth mAuth;
+    public static FirebaseUser user;
+    public static String userID;
+    public static DatabaseReference mData;
     private ImageButton imgbtnAddToDoListWork;
     public static Context context;
     private int day, month, year, hour, minutes;
@@ -78,7 +79,6 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
         init();
         initDatabase();
         registerListener();
-        initListViewToDoList();
 
         return view;
     }
@@ -97,7 +97,9 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
         imgbtnAddToDoListWork = (ImageButton) view.findViewById(R.id.imageButtonAddWorkToDoList);
         lvToDoList = (ListView) view.findViewById(R.id.listViewToDoList);
         toDoListWorkArrayList = new ArrayList<>();
-        toDoListWorkAdapter = new ToDoListWorkAdapter(view.getContext(), R.layout.custom_row_todolist, toDoListWorkArrayList);
+        toDoListWorkCompleteArrayList=new ArrayList<>();
+        toDoListWorkAdapter = new ToDoListWorkAdapter(context, R.layout.custom_row_todolist, toDoListWorkArrayList);
+        toDoListWorkCompleteAdapter = new ToDoListWorkCompleteAdapter(context, R.layout.custom_row_todolist, toDoListWorkCompleteArrayList);
         lvToDoList.setAdapter(toDoListWorkAdapter);
     }
 
@@ -110,13 +112,13 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
     }
 
     // khởi tạo listview đang thực hiện
-    private void initListViewToDoList() {
-        mData.child("ToDoList").child(userID).child("Working").addChildEventListener(new ChildEventListener() {
+    public static void initListViewToDoList(String typeToDoList, final ArrayList<ToDoListWork> arrayList, final BaseAdapter baseAdapter) {
+        mData.child("ToDoList").child(userID).child(typeToDoList).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 ToDoListWork toDoListWork = dataSnapshot.getValue(ToDoListWork.class);
-                toDoListWorkArrayList.add(toDoListWork);
-                toDoListWorkAdapter.notifyDataSetChanged();
+                arrayList.add(toDoListWork);
+                baseAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -145,6 +147,7 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
     private void registerListener() {
         imgbtnAddToDoListWork.setOnClickListener(this);
         lvToDoList.setOnItemClickListener(this);
+        spinnerWorkStatus.setOnItemSelectedListener(this);
     }
 
     // implement OnClick
@@ -179,6 +182,68 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
             case R.id.buttonUpdateWorkToToDoList:
                 break;
         }
+    }
+
+    // khởi tạo dialog thêm công việc to do list
+    private void initDialogAddWork() {
+        dialogAddToDoList = new Dialog(context);
+        dialogAddToDoList.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogAddToDoList.setContentView(R.layout.dialog_todolist_add);
+
+        edtAddWorkContent = (EditText) dialogAddToDoList.findViewById(R.id.editTextToDoListAddWorkContentDialog);
+        edtAddWorkDateDue = (EditText) dialogAddToDoList.findViewById(R.id.editTextToDoListAddWorkDateDueDialog);
+        edtAddWorkTimeDue = (EditText) dialogAddToDoList.findViewById(R.id.editTextToDoListAddWorkTimeDueDialog);
+        btnAddWorkToList = (Button) dialogAddToDoList.findViewById(R.id.buttonToDoListAddWork);
+        btnCancelAddWork = (Button) dialogAddToDoList.findViewById(R.id.buttonToDoListCancelWork);
+
+        edtAddWorkDateDue.setInputType(InputType.TYPE_NULL);
+        edtAddWorkTimeDue.setInputType(InputType.TYPE_NULL);
+
+        edtAddWorkTimeDue.setOnClickListener(this);
+        edtAddWorkDateDue.setOnClickListener(this);
+        btnAddWorkToList.setOnClickListener(this);
+        btnCancelAddWork.setOnClickListener(this);
+
+        dialogAddToDoList.show();
+    }
+
+    //dialog ngày đáo hạn
+    private void openAddDatePicker() {
+        calendarAddDate = Calendar.getInstance();
+        day = calendarAddDate.get(Calendar.DAY_OF_MONTH);
+        month = calendarAddDate.get(Calendar.MONTH);
+        year = calendarAddDate.get(Calendar.YEAR);
+        // time picker dialog
+        datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int yearNow, int monthNow, int dayOfMonthNow) {
+                calendarAddDate.set(yearNow, monthNow, dayOfMonthNow, 0, 0, 0);
+                edtAddWorkDateDue.setText(dayOfMonthNow + "/" + (monthNow + 1) + "/" + yearNow);
+            }
+        }, year, month, day);
+        datePickerDialog.show();
+    }
+
+    // dialog thời gian đáo hạn
+    private void openAddTimePicker() {
+        calendarAddTime = Calendar.getInstance();
+        hour = calendarAddTime.get(Calendar.HOUR_OF_DAY);
+        minutes = calendarAddTime.get(Calendar.MINUTE);
+        // time picker dialog
+        timePickerDialog = new TimePickerDialog(context,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                        calendarAddTime.set(0, 0, 0, sHour, sMinute, 0);
+                        if (sMinute < 10) {
+                            edtAddWorkTimeDue.setText(sHour + ":0" + sMinute);
+                        } else {
+                            edtAddWorkTimeDue.setText(sHour + ":" + sMinute);
+                        }
+
+                    }
+                }, hour, minutes, true);
+        timePickerDialog.show();
     }
 
     //kiểm tra điều kiện trước khi lưu công việc
@@ -242,7 +307,7 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
                     Toast.makeText(context, "Lưu công việc", Toast.LENGTH_SHORT).show();
                     dialogAddToDoList.cancel();
                     toDoListWorkArrayList.clear();
-                    initListViewToDoList();
+                    initListViewToDoList("Working", toDoListWorkArrayList, toDoListWorkAdapter);
                 } else {
                     Toast.makeText(context, "Xảy ra lỗi! Vui lòng thử lại", Toast.LENGTH_SHORT).show();
                 }
@@ -262,7 +327,7 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
                     Toast.makeText(context, "Lưu công việc", Toast.LENGTH_SHORT).show();
                     dialogAddToDoList.cancel();
                     toDoListWorkArrayList.clear();
-                    initListViewToDoList();
+                    initListViewToDoList("Working", toDoListWorkArrayList, toDoListWorkAdapter);
                 } else {
                     Toast.makeText(context, "Xảy ra lỗi! Vui lòng thử lại", Toast.LENGTH_SHORT).show();
                 }
@@ -282,9 +347,25 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
                     Toast.makeText(context, "Lưu công việc", Toast.LENGTH_SHORT).show();
                     dialogAddToDoList.cancel();
                     toDoListWorkArrayList.clear();
-                    initListViewToDoList();
+                    initListViewToDoList("Working",toDoListWorkArrayList, toDoListWorkAdapter);
                 } else {
                     Toast.makeText(context, "Xảy ra lỗi! Vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    // thay đổi trạng thái của công việc
+    public static void changeStatusToDoList(final ToDoListWork toDoListWork, String workID){
+        mData.child("ToDoList").child(userID).child("Working").child(workID).removeValue();
+        toDoListWork.workStatus=true;
+        mData.child("ToDoList").child(userID).child("Complete").child(workID).setValue(toDoListWork, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                if (databaseError==null){
+                    Toast.makeText(context, "Công việc đã chuyển sang danh sách công việc hoàn thành. Bạn có thể xem lại danh sách ở danh mục CÔNG VIỆC ĐÃ HOÀN THÀNH", Toast.LENGTH_LONG).show();
+                    toDoListWorkArrayList.clear();
+                    initListViewToDoList("Working", toDoListWorkArrayList, toDoListWorkAdapter);
                 }
             }
         });
@@ -344,66 +425,28 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
 //        timePickerDialog.show();
 //    }
 
-    // khởi tạo dialog thêm công việc to do list
-    private void initDialogAddWork() {
-        dialogAddToDoList = new Dialog(context);
-        dialogAddToDoList.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialogAddToDoList.setContentView(R.layout.dialog_todolist_add);
 
-        edtAddWorkContent = (EditText) dialogAddToDoList.findViewById(R.id.editTextToDoListAddWorkContentDialog);
-        edtAddWorkDateDue = (EditText) dialogAddToDoList.findViewById(R.id.editTextToDoListAddWorkDateDueDialog);
-        edtAddWorkTimeDue = (EditText) dialogAddToDoList.findViewById(R.id.editTextToDoListAddWorkTimeDueDialog);
-        btnAddWorkToList = (Button) dialogAddToDoList.findViewById(R.id.buttonToDoListAddWork);
-        btnCancelAddWork = (Button) dialogAddToDoList.findViewById(R.id.buttonToDoListCancelWork);
 
-        edtAddWorkDateDue.setInputType(InputType.TYPE_NULL);
-        edtAddWorkTimeDue.setInputType(InputType.TYPE_NULL);
+    // implement onItemClick
 
-        edtAddWorkTimeDue.setOnClickListener(this);
-        edtAddWorkDateDue.setOnClickListener(this);
-        btnAddWorkToList.setOnClickListener(this);
-        btnCancelAddWork.setOnClickListener(this);
 
-        dialogAddToDoList.show();
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (arrayStatusWorkSpinner.get(position).equals("CÔNG VIỆC ĐANG THỰC HIỆN")){
+            toDoListWorkArrayList.clear();toDoListWorkArrayList.clear();
+            lvToDoList.setAdapter(toDoListWorkAdapter);
+            initListViewToDoList("Working",toDoListWorkArrayList,toDoListWorkAdapter);
+        }
+        if (arrayStatusWorkSpinner.get(position).equals("CÔNG VIỆC ĐÃ HOÀN THÀNH")){
+            toDoListWorkCompleteArrayList.clear();
+            lvToDoList.setAdapter(toDoListWorkCompleteAdapter);
+            initListViewToDoList("Complete",toDoListWorkCompleteArrayList, toDoListWorkCompleteAdapter);
+        }
     }
 
-    //dialog ngày đáo hạn
-    private void openAddDatePicker() {
-        calendarAddDate = Calendar.getInstance();
-        day = calendarAddDate.get(Calendar.DAY_OF_MONTH);
-        month = calendarAddDate.get(Calendar.MONTH);
-        year = calendarAddDate.get(Calendar.YEAR);
-        // time picker dialog
-        datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int yearNow, int monthNow, int dayOfMonthNow) {
-                calendarAddDate.set(yearNow, monthNow, dayOfMonthNow, 0, 0, 0);
-                edtAddWorkDateDue.setText(dayOfMonthNow + "/" + (monthNow + 1) + "/" + yearNow);
-            }
-        }, year, month, day);
-        datePickerDialog.show();
-    }
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
-    // dialog thời gian đáo hạn
-    private void openAddTimePicker() {
-        calendarAddTime = Calendar.getInstance();
-        hour = calendarAddTime.get(Calendar.HOUR_OF_DAY);
-        minutes = calendarAddTime.get(Calendar.MINUTE);
-        // time picker dialog
-        timePickerDialog = new TimePickerDialog(context,
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                        calendarAddTime.set(0, 0, 0, sHour, sMinute, 0);
-                        if (sMinute < 10) {
-                            edtAddWorkTimeDue.setText(sHour + ":0" + sMinute);
-                        } else {
-                            edtAddWorkTimeDue.setText(sHour + ":" + sMinute);
-                        }
-
-                    }
-                }, hour, minutes, true);
-        timePickerDialog.show();
     }
 
     @Override
