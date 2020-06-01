@@ -23,6 +23,8 @@
         android:orientation="vertical">
 
         <TextView
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:id="@+id/textViewToDoListWorkContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

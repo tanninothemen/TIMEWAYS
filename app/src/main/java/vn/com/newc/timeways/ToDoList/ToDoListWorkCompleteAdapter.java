@@ -50,7 +50,8 @@ public class ToDoListWorkCompleteAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
+        ViewHolder
+                viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -76,28 +77,25 @@ public class ToDoListWorkCompleteAdapter extends BaseAdapter {
         }
         viewHolder.ckbWorkStatus.setChecked(true);
         viewHolder.ckbWorkStatus.setEnabled(false);
-        viewHolder.ckbWorkStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        viewHolder.imgbtDeleteWork.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (viewHolder.ckbWorkStatus.isChecked()){
-//                    final AlertDialog.Builder alertCompleteWork=new AlertDialog.Builder(context);
-//                    alertCompleteWork.setTitle("Hoàn thành công việc");
-//                    alertCompleteWork.setMessage("Bạn xác nhận đã hoàn thành công việc?");
-//                    alertCompleteWork.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            FragmentToDoList.changeStatusToDoList(toDoListWork, toDoListWork.workID);
-//                        }
-//                    });
-//                    alertCompleteWork.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            viewHolder.ckbWorkStatus.setChecked(false);
-//                            dialog.cancel();
-//                        }
-//                    });
-//                    alertCompleteWork.show();
-//                }
+            public void onClick(View v) {
+                AlertDialog.Builder alertDeleteWork = new AlertDialog.Builder(context);
+                alertDeleteWork.setTitle("Xóa công việc");
+                alertDeleteWork.setMessage("Bạn có chắc chắn muốn xóa công việc "+toDoListWork.WorkContent+" không?");
+                alertDeleteWork.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FragmentToDoList.deleteToDoListWork(toDoListWork.workID, toDoListWork,"Complete");
+                    }
+                });
+                alertDeleteWork.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alertDeleteWork.show();
             }
         });
 
