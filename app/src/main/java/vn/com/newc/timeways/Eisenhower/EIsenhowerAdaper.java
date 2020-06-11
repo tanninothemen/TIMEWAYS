@@ -39,7 +39,7 @@ public class EIsenhowerAdaper extends BaseAdapter {
     }
 
     private class ViewHolder{
-        TextView txtEisenhowerWorkName;
+        TextView txtEisenhowerWorkName, txtEisenhowerWorkEndDate;
     }
 
     @Override
@@ -50,6 +50,7 @@ public class EIsenhowerAdaper extends BaseAdapter {
             LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView=inflater.inflate(layout, null);
             viewHolder.txtEisenhowerWorkName=(TextView) convertView.findViewById(R.id.textViewEisenhowerWorkNameCustom);
+            viewHolder.txtEisenhowerWorkEndDate=(TextView) convertView.findViewById(R.id.textViewEisenhowerWorkDateEndCustom);
             convertView.setTag(viewHolder);
         }else {
             viewHolder= (ViewHolder) convertView.getTag();
@@ -57,6 +58,7 @@ public class EIsenhowerAdaper extends BaseAdapter {
 
         EisenhowerWork eisenhowerWork= (EisenhowerWork) getItem(position);
         viewHolder.txtEisenhowerWorkName.setText(eisenhowerWork.workName);
+        viewHolder.txtEisenhowerWorkEndDate.setText("Ngày kết thúc: "+eisenhowerWork.workDateEnd);
         return convertView;
     }
 }

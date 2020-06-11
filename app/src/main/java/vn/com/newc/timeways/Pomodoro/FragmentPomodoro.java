@@ -1,5 +1,6 @@
 package vn.com.newc.timeways.Pomodoro;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
@@ -11,7 +12,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,17 +35,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 import vn.com.newc.timeways.Main.MainActivity;
 import vn.com.newc.timeways.R;
@@ -55,7 +49,6 @@ public class FragmentPomodoro extends Fragment implements View.OnClickListener {
     private ImageView imgPomodoroClock;
     private TextView txtPomodoroTime, txtTitle;
     private Button btnFinishTheWork, btnPauseTheWork, btnAddWorkToList, btnCancelAddWork;
-    private ListView lvPomodoroWorkList;
     private Dialog dialogAddPomodoro;
     private AlertDialog.Builder alertDialogRestPomodoro, alertDialogReturnWorkPomodoro;
     private DatabaseReference mData;
@@ -69,9 +62,12 @@ public class FragmentPomodoro extends Fragment implements View.OnClickListener {
     private PomodoroListAdapter listAdapter;
     private ArrayList<PomodoroWork> workArrayList;
     private int numberSessionWork = 0;
-    private String keyIDWork;
     private PomodoroWork pomodoroWork;
     private CountDownTimer countDownTimerPomodoro, countDownTimerRest;
+    private Intent intentNotificationReceiver;
+    private PendingIntent pendingIntent;
+    private Context context;
+    private AlarmManager alarmManager;
 
     @Nullable
     @Override
@@ -92,7 +88,6 @@ public class FragmentPomodoro extends Fragment implements View.OnClickListener {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 pomodoroWork = dataSnapshot.getValue(PomodoroWork.class);
-                //Toast.makeText(view.getContext(), work.workName, Toast.LENGTH_SHORT).show();
                 workArrayList.add(pomodoroWork);
                 listAdapter.notifyDataSetChanged();
             }
@@ -135,6 +130,8 @@ public class FragmentPomodoro extends Fragment implements View.OnClickListener {
 
     //khởi tạo view
     private void init() {
+        context=view.getContext();
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         listViewPomodoroWork = (ListView) view.findViewById(R.id.listViewPomodoroWorkList);
         workArrayList = new ArrayList<>();
         listAdapter = new PomodoroListAdapter(view.getContext(), R.layout.custom_row_pomodoro_list, workArrayList);
@@ -147,7 +144,6 @@ public class FragmentPomodoro extends Fragment implements View.OnClickListener {
         btnPauseTheWork = (Button) view.findViewById(R.id.buttonPauseTheWork);
         btnPauseTheWork.setVisibility(View.INVISIBLE);
         //btnRest=(Button) view.findViewById(R.id.buttonRest);
-        lvPomodoroWorkList = (ListView) view.findViewById(R.id.listViewPomodoroWorkList);
     }
 
     //implement onClick
@@ -170,7 +166,7 @@ public class FragmentPomodoro extends Fragment implements View.OnClickListener {
                     interruptTheWork();
                 } else if (btnPauseTheWork.getText().equals("Quay lại phiên")){
                     btnPauseTheWork.setText("Tạm hoãn");
-                    returnSessionWork();
+                    returnSessionWork(pomodoroWork);
 
                 }
                 break;
@@ -178,11 +174,11 @@ public class FragmentPomodoro extends Fragment implements View.OnClickListener {
                 String workName=edtAddWorkContent.getText().toString().trim();
                 if (workName.isEmpty()){
                     Toast.makeText(view.getContext(), "Bạn phải nhập tên công việc.", Toast.LENGTH_SHORT).show();
+                }else {
+                    handleSaveWork(workName);
+                    btnFinishTheWork.setVisibility(View.VISIBLE);
+                    btnPauseTheWork.setVisibility(View.VISIBLE);
                 }
-                handleSaveWork(workName);
-                btnFinishTheWork.setVisibility(View.VISIBLE);
-                btnPauseTheWork.setVisibility(View.VISIBLE);
-
                 break;
             case R.id.buttonCancelAddWorkPomodoro:
                 dialogAddPomodoro.cancel();
@@ -194,10 +190,10 @@ public class FragmentPomodoro extends Fragment implements View.OnClickListener {
     }
 
     //quay trở lại ban đầu phiên làm việc
-    private void returnSessionWork() {
+    private void returnSessionWork(PomodoroWork pomodoroWork) {
 
         if (isWorkTime==true && isRestTime==false){
-            handlePomodoroSession();
+            handlePomodoroSession(pomodoroWork);
         }else if (isRestTime==true && isWorkTime==false){
             handleRestSession();
         }
@@ -228,8 +224,6 @@ public class FragmentPomodoro extends Fragment implements View.OnClickListener {
         btnPauseTheWork.setVisibility(View.INVISIBLE);
     }
 
-
-
     // mở hộp thoại thêm công việc
     private void openAddWorkDialog() {
         dialogAddPomodoro = new Dialog(view.getContext());
@@ -255,20 +249,22 @@ public class FragmentPomodoro extends Fragment implements View.OnClickListener {
             //Xử lý dữ liệu tên công việc và thời gian hiện tại của công việc
             Date currentTime = Calendar.getInstance().getTime();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String stringCurrentTime = simpleDateFormat.format(currentTime);
-            PomodoroWork pomodoroWork = new PomodoroWork(workName, stringCurrentTime,0);
+            SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("HH:mm");
+            String stringcurrentDate = simpleDateFormat.format(currentTime);
+            String stringCurrentTime = simpleTimeFormat.format(currentTime);
+            String workID = mData.push().getKey();
 
-            keyIDWork=mData.push().getKey();
-            mData.child("Pomodoro").child(userID).child(keyIDWork).setValue(pomodoroWork, new DatabaseReference.CompletionListener() {
+            pomodoroWork = new PomodoroWork(workID, workName, stringcurrentDate, stringCurrentTime,0);
+            mData.child("Pomodoro").child(userID).child(workID).setValue(pomodoroWork, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                     if (databaseError==null){
                         Toast.makeText(view.getContext(), "Lưu công việc "+ workName+". Bắt đầu thời gian làm việc!", Toast.LENGTH_SHORT).show();
                         dialogAddPomodoro.cancel();
                         isWorkAvailable = true;
-                        isWorkTime=true;
-                        isRestTime=false;
-                        handlePomodoroSession();
+                        workArrayList.clear();
+                        initPomodoroWorkList();
+                        handlePomodoroSession(pomodoroWork);
                     }else {
                         Toast.makeText(view.getContext(), "Xảy ra lỗi, vui lòng thử lại.", Toast.LENGTH_SHORT).show();
                     }
@@ -278,7 +274,7 @@ public class FragmentPomodoro extends Fragment implements View.OnClickListener {
     }
 
     // xử lý phiên làm việc của Pomodoro
-    private void handlePomodoroSession() {
+    private void handlePomodoroSession(final PomodoroWork pomodoroWork) {
         isWorkTime=true;
         isRestTime=false;
         // 1 giây = 1000 millisecond
@@ -297,7 +293,7 @@ public class FragmentPomodoro extends Fragment implements View.OnClickListener {
                 numberSessionWork++;
                 String timedOutNotice="Đã hết thời gian làm việc, hãy nghỉ ngơi nào.";
                 addCompleteNotification(timedOutNotice);
-                updateSessionForWork(numberSessionWork);
+                updateSessionForWork(numberSessionWork, pomodoroWork);
                 showRestDialog();
             }
         }.start();
@@ -320,35 +316,34 @@ public class FragmentPomodoro extends Fragment implements View.OnClickListener {
             @Override
             public void onFinish() {
                 String timedOutNotice="Đã hết thời gian nghỉ ngơi, quay lại với phiên làm việc nào.";
-                addCompleteNotification(timedOutNotice);
                 showReturnWorkDialog();
+                addCompleteNotification(timedOutNotice);
             }
         }.start();
     }
 
     //cập nhật phiên pomodoro cho công việc
-    private void updateSessionForWork(int numberSessionWork) {
-        mData.child("Pomodoro").child(userID).child(keyIDWork).child("workSession").setValue(numberSessionWork);
+    private void updateSessionForWork(int numberSessionWork, PomodoroWork pomodoroWork) {
+        mData.child("Pomodoro").child(userID).child(pomodoroWork.workID).child("workSession").setValue(numberSessionWork);
         workArrayList.clear();
         initPomodoroWorkList();
     }
 
     // thêm thông báo khi kết thúc phiên Pomodoro
     private void addCompleteNotification(String notification) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(view.getContext());
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        builder.setSmallIcon(R.drawable.favicon)
-                .setContentText("TIMEWAYS")
-                .setContentText(notification)
-                .setSound(alarmSound);
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.icon_app)
+                        .setContentTitle("TIMEWAYS - Pomodoro")
+                        .setContentText(notification);
 
-        Intent notificationIntent = new Intent(view.getContext(), MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(view.getContext(), 0, notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent,
+                0);
         builder.setContentIntent(contentIntent);
 
         // Add as notification
-        NotificationManager manager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(0, builder.build());
     }
 
@@ -390,7 +385,7 @@ public class FragmentPomodoro extends Fragment implements View.OnClickListener {
         alertDialogReturnWorkPomodoro.setPositiveButton("Tiếp tục", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                handlePomodoroSession();
+                handlePomodoroSession(pomodoroWork);
             }
         });
         alertDialogReturnWorkPomodoro.setNegativeButton("Hoàn thành công việc", new DialogInterface.OnClickListener() {

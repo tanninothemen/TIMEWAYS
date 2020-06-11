@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item>
-        <bitmap android:src="@drawable/login_wallpaper"/>
+        <bitmap android:src="@drawable/background5"/>
     </item>
     <item android:bottom="350dp">
         <bitmap android:src="@drawable/login_logo"

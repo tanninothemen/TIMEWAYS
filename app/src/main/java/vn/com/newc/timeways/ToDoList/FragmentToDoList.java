@@ -48,7 +48,7 @@ import java.util.Locale;
 
 import vn.com.newc.timeways.R;
 
-public class FragmentToDoList extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener{
+public class FragmentToDoList extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private View view;
     public static ListView lvToDoList;
@@ -94,7 +94,7 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
     // khởi tạo view
     private void init() {
         context = view.getContext();
-        alarmManager=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         intentNotificationReceiver = new Intent(context, NotificationReceiver.class);
         spinnerWorkStatus = (Spinner) view.findViewById(R.id.spinnerToDoListStatusWork);
         arrayStatusWorkSpinner = new ArrayList<>();
@@ -107,7 +107,7 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
         imgbtnAddToDoListWork = (ImageButton) view.findViewById(R.id.imageButtonAddWorkToDoList);
         lvToDoList = (ListView) view.findViewById(R.id.listViewToDoList);
         toDoListWorkArrayList = new ArrayList<>();
-        toDoListWorkCompleteArrayList=new ArrayList<>();
+        toDoListWorkCompleteArrayList = new ArrayList<>();
         toDoListWorkAdapter = new ToDoListWorkAdapter(context, R.layout.custom_row_todolist, toDoListWorkArrayList);
         toDoListWorkCompleteAdapter = new ToDoListWorkCompleteAdapter(context, R.layout.custom_row_todolist, toDoListWorkCompleteArrayList);
         lvToDoList.setAdapter(toDoListWorkAdapter);
@@ -174,7 +174,7 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
                 break;
             case R.id.buttonToDoListAddWork:
                 try {
-                    checkWorkDataBeforeSave(edtAddWorkContent,edtAddWorkDateDue,edtAddWorkTimeDue);
+                    checkWorkDataBeforeSave(edtAddWorkContent, edtAddWorkDateDue, edtAddWorkTimeDue);
                 } catch (ParseException e) {
                     e.printStackTrace();
                     Toast.makeText(context, "Lỗi thêm công việc " + e.toString(), Toast.LENGTH_SHORT).show();
@@ -194,7 +194,7 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
                 break;
             case R.id.buttonToDoListUpdateWork:
                 try {
-                    checkWorkDataBeforeUpdate(edtUpdateWorkContent,edtUpdateWorkDateDue,edtUpdateWorkTimeDue);
+                    checkWorkDataBeforeUpdate(edtUpdateWorkContent, edtUpdateWorkDateDue, edtUpdateWorkTimeDue);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -363,7 +363,7 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
     }
 
     // cập nhật công việc không có đáo hạn
-    private void updateWorkNotDue(String workUpdateContent){
+    private void updateWorkNotDue(String workUpdateContent) {
         ToDoListWork toDoListWork = new ToDoListWork(workIDUpdate, workUpdateContent, false);
         mData.child("ToDoList").child(userID).child("Working").child(workIDUpdate).setValue(toDoListWork, new DatabaseReference.CompletionListener() {
             @Override
@@ -390,7 +390,7 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
                     Toast.makeText(context, "Lưu công việc", Toast.LENGTH_SHORT).show();
                     dialogUpdateToDoList.cancel();
                     toDoListWorkArrayList.clear();
-                    initListViewToDoList("Working",toDoListWorkArrayList, toDoListWorkAdapter);
+                    initListViewToDoList("Working", toDoListWorkArrayList, toDoListWorkAdapter);
                 } else {
                     Toast.makeText(context, "Xảy ra lỗi! Vui lòng thử lại", Toast.LENGTH_SHORT).show();
                 }
@@ -421,7 +421,7 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
         //Toast.makeText(context, "lưu công việc có ngày và thời gian đáo hạn", Toast.LENGTH_SHORT).show();
         final String workID = mData.push().getKey();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        String timeFormatString = workDateDue+" "+workTimeDue;
+        String timeFormatString = workDateDue + " " + workTimeDue;
         try {
             Date timeFormatDate = format.parse(timeFormatString);
             final long timeFormatMillis = timeFormatDate.getTime();
@@ -438,8 +438,9 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
                                 intentNotificationReceiver,
                                 0
                         );
-                        alarmManager.set(AlarmManager.RTC_WAKEUP,timeFormatMillis,pendingIntent);
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, timeFormatMillis, pendingIntent);
                         toDoListWorkArrayList.clear();
+                        toDoListWorkAdapter.notifyDataSetChanged();
                         initListViewToDoList("Working", toDoListWorkArrayList, toDoListWorkAdapter);
                     } else {
                         Toast.makeText(context, "Xảy ra lỗi! Vui lòng thử lại", Toast.LENGTH_SHORT).show();
@@ -483,7 +484,7 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
                     Toast.makeText(context, "Lưu công việc", Toast.LENGTH_SHORT).show();
                     dialogAddToDoList.cancel();
                     toDoListWorkArrayList.clear();
-                    initListViewToDoList("Working",toDoListWorkArrayList, toDoListWorkAdapter);
+                    initListViewToDoList("Working", toDoListWorkArrayList, toDoListWorkAdapter);
                 } else {
                     Toast.makeText(context, "Xảy ra lỗi! Vui lòng thử lại", Toast.LENGTH_SHORT).show();
                 }
@@ -492,14 +493,14 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
     }
 
     // thay đổi trạng thái của công việc
-    public static void changeStatusToDoList(final ToDoListWork toDoListWork, String workID){
+    public static void changeStatusToDoList(final ToDoListWork toDoListWork, String workID) {
         mData.child("ToDoList").child(userID).child("Working").child(workID).removeValue();
-        toDoListWork.workStatus=true;
+        toDoListWork.workStatus = true;
         mData.child("ToDoList").child(userID).child("Complete").child(workID).setValue(toDoListWork, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                if (databaseError==null){
-                    Toast.makeText(context, "Công việc <"+toDoListWork.WorkContent+"> đã chuyển sang danh sách công việc hoàn thành. Bạn có thể xem lại danh sách ở danh mục CÔNG VIỆC ĐÃ HOÀN THÀNH", Toast.LENGTH_LONG).show();
+                if (databaseError == null) {
+                    Toast.makeText(context, "Công việc <" + toDoListWork.WorkContent + "> đã chuyển sang danh sách công việc hoàn thành. Bạn có thể xem lại danh sách ở danh mục CÔNG VIỆC ĐÃ HOÀN THÀNH", Toast.LENGTH_LONG).show();
                     toDoListWorkArrayList.clear();
                     initListViewToDoList("Working", toDoListWorkArrayList, toDoListWorkAdapter);
                 }
@@ -509,17 +510,19 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
 
     //xóa công việc khỏi danh sách
     public static void deleteToDoListWork(String workID, ToDoListWork toDoListWork, String workType) {
-        if (workType=="Working"){
+        if (workType == "Working") {
             mData.child("ToDoList").child(userID).child(workType).child(workID).removeValue();
             toDoListWorkArrayList.clear();
-            initListViewToDoList(workType,toDoListWorkArrayList,toDoListWorkAdapter);
-        } else if (workType=="Complete"){
+            toDoListWorkAdapter.notifyDataSetChanged();
+            initListViewToDoList(workType, toDoListWorkArrayList, toDoListWorkAdapter);
+        } else if (workType == "Complete") {
             mData.child("ToDoList").child(userID).child(workType).child(workID).removeValue();
             toDoListWorkCompleteArrayList.clear();
-            initListViewToDoList(workType,toDoListWorkCompleteArrayList,toDoListWorkCompleteAdapter);
+            toDoListWorkCompleteAdapter.notifyDataSetChanged();
+            initListViewToDoList(workType, toDoListWorkCompleteArrayList, toDoListWorkCompleteAdapter);
         }
 
-        Toast.makeText(context, "Đã xóa công việc <"+toDoListWork.WorkContent+">", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Đã xóa công việc <" + toDoListWork.WorkContent + ">", Toast.LENGTH_SHORT).show();
     }
 
     // khởi tạo dialog sửa công việc to do list
@@ -557,17 +560,19 @@ public class FragmentToDoList extends Fragment implements View.OnClickListener, 
     // implement onItemClick
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (arrayStatusWorkSpinner.get(position).equals("CÔNG VIỆC ĐANG THỰC HIỆN")){
-            toDoListWorkArrayList.clear();toDoListWorkArrayList.clear();
+        if (arrayStatusWorkSpinner.get(position).equals("CÔNG VIỆC ĐANG THỰC HIỆN")) {
+            toDoListWorkArrayList.clear();
+            toDoListWorkArrayList.clear();
             lvToDoList.setAdapter(toDoListWorkAdapter);
-            initListViewToDoList("Working",toDoListWorkArrayList,toDoListWorkAdapter);
+            initListViewToDoList("Working", toDoListWorkArrayList, toDoListWorkAdapter);
         }
-        if (arrayStatusWorkSpinner.get(position).equals("CÔNG VIỆC ĐÃ HOÀN THÀNH")){
+        if (arrayStatusWorkSpinner.get(position).equals("CÔNG VIỆC ĐÃ HOÀN THÀNH")) {
             toDoListWorkCompleteArrayList.clear();
             lvToDoList.setAdapter(toDoListWorkCompleteAdapter);
-            initListViewToDoList("Complete",toDoListWorkCompleteArrayList, toDoListWorkCompleteAdapter);
+            initListViewToDoList("Complete", toDoListWorkCompleteArrayList, toDoListWorkCompleteAdapter);
         }
     }
+
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }

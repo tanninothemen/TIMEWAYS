@@ -5,14 +5,17 @@
     <color name="colorAccent">#D81B60</color>
     <color name="username_login_color">#66a3d2</color>
     <color name="edittext_login_color">#E6E6E6</color>
-    <color name="login_font_color">#ffffff</color>
+    <color name="login_font_color">#7F0081</color>
     <color name="white_color">#fff</color>
     <color name="main_color">#FF5722</color>
     <color name="main_color_2">#ffc175</color>
     <color name="main_color_3">#ec6c99</color>
     <color name="main_color_4">#afef6e</color>
-    <color name="main_color_5">#61a0c6</color>
-    <color name="main_color_6">#60d097</color>
+    <color name="main_color_5">#61A0C6</color>
+    <color name="main_color_6">#60D097</color>
+    <color name="main_color_6_1">#AFEF6E</color>
+    <color name="main_color_6_2">#61A0C6</color>
     <color name="dialog_title_color">#18B364</color>
     <color name="black_color">#000</color>
+    <color name="color_hint_login">#808080</color>
 </resources>

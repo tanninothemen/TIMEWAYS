@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutLogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_background_custom">
 
     <TextView
+        android:textColor="@color/black_color"
         android:id="@+id/textViewTieuDeDangNhap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,6 +18,8 @@
         android:textStyle="bold" />
 
     <EditText
+        android:textColorHint="@color/color_hint_login"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/editTextEnterEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,9 +30,11 @@
         android:layout_marginRight="64dp"
         android:hint="@string/text_enter_email"
         android:inputType="textEmailAddress"
-        android:textColor="@color/login_font_color" />
+        android:textColor="@color/black_color" />
 
     <EditText
+        android:textColorHint="@color/color_hint_login"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/editTextEnterPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,18 +44,23 @@
         android:layout_marginRight="64dp"
         android:hint="@string/text_enter_password"
         android:inputType="textPassword"
-        android:textColor="@color/login_font_color" />
+        android:textColor="@color/black_color" />
 
     <Button
+        android:textSize="15sp"
         android:id="@+id/buttonLogin"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/editTextEnterPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="@string/text_login" />
+        android:text="@string/text_login"
+        android:textColor="@color/white_color"
+        app:backgroundTint="@color/main_color" />
 
     <TextView
+        android:textColor="@color/white_color"
         android:id="@+id/textViewTaiKhoanKhac"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,6 +92,7 @@
         android:src="@drawable/google_plus" />
 
     <TextView
+        android:textColor="@color/black_color"
         android:id="@+id/textViewGoiYDangKy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -98,8 +110,8 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="25dp"
         android:layout_toRightOf="@id/textViewGoiYDangKy"
-        android:text="Đăng ký"
-        android:textColor="@color/white_color"
+        android:text="@string/font_signUp"
+        android:textColor="@color/main_color"
         android:textSize="22sp"
         android:textStyle="bold" />
 

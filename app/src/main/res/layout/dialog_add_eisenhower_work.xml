@@ -22,11 +22,12 @@
         android:layout_margin="10dp"
         android:hint="Nhập nội dung công việc" />
     <LinearLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:layout_gravity="center_vertical"
             android:textSize="18sp"
-            android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Loại công việc: "/>
@@ -36,6 +37,28 @@
             android:layout_margin="10dp"
             android:id="@+id/spinnerEisenhowerTypeWork"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editTextEisenhowerAddDateStart"
+            android:hint="Ngày bắt đầu"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/editTextEisenhowerAddDateEnd"
+            android:hint="Ngày kết thúc"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
 
     <LinearLayout
         android:gravity="center"
@@ -57,6 +80,7 @@
             android:layout_height="match_parent"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"/>
+
     </LinearLayout>
 
 </LinearLayout>

@@ -47,7 +47,7 @@
         android:layout_marginLeft="64dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="64dp"
-        android:hint="@string/text_enter_password"
+        android:hint="@string/text_enter_repeat_password"
         android:inputType="textPassword"
         android:textColor="@color/login_font_color" />
 

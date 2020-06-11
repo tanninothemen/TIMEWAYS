@@ -39,10 +39,11 @@
                     android:textStyle="bold" />
 
                 <ListView
+                    android:background="@drawable/background_listview_eisenhower_do"
                     android:id="@+id/listViewEisenhowerDO"
-                    android:divider="#4DB6AC"
-                    android:dividerHeight="1px"
-                    android:padding="10dp"
+                    android:dividerHeight="2dp"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="8" />
@@ -67,10 +68,11 @@
                     android:textStyle="bold" />
 
                 <ListView
+                    android:background="@drawable/background_listview_eisenhower_decide"
                     android:id="@+id/listViewEisenhowerDECIDE"
-                    android:divider="#F06292"
-                    android:dividerHeight="1px"
-                    android:padding="10dp"
+                    android:dividerHeight="2dp"
+                    android:layout_margin="5dp"
+                    android:padding="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="8" />
@@ -106,10 +108,11 @@
                     android:textStyle="bold" />
 
                 <ListView
+                    android:background="@drawable/background_listview_eisenhower_delegate"
                     android:id="@+id/listViewEisenhowerDELEGATE"
-                    android:divider="#7986CB"
                     android:dividerHeight="1px"
-                    android:padding="10dp"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="8" />
@@ -134,10 +137,11 @@
                     android:textStyle="bold" />
 
                 <ListView
+                    android:background="@drawable/background_listview_eisenhower_delete"
                     android:id="@+id/listViewEisenhowerDELETE"
-                    android:divider="#FF8A65"
-                    android:dividerHeight="1px"
-                    android:padding="10dp"
+                    android:dividerHeight="2dp"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="8" />

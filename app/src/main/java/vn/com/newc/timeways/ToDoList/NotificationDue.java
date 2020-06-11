@@ -19,7 +19,6 @@ import vn.com.newc.timeways.Main.MainActivity;
 import vn.com.newc.timeways.R;
 
 public class NotificationDue extends Service {
-    MediaPlayer player;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

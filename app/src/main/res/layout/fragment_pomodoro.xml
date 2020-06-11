@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#c3b3"
+    android:background="@color/main_color_6"
     android:orientation="vertical">
 
     <TextView
@@ -15,8 +15,8 @@
 
     <ImageView
         android:id="@+id/imageViewPomodoroClock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:src="@drawable/icon_pomodoro_clock" />
@@ -72,10 +72,14 @@
         android:text="Danh sách Pomodoro của bạn"/>
 
     <ListView
+        android:padding="5dp"
+        android:background="@drawable/background_listview_pomodoro"
+        android:dividerHeight="10dp"
+        android:divider="@color/main_color_6_1"
         android:layout_margin="5dp"
         android:id="@+id/listViewPomodoroWorkList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/textViewTitlePomodoroWorkList"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp" />

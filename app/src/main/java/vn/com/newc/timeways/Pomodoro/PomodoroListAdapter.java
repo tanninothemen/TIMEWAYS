@@ -61,7 +61,7 @@ public class PomodoroListAdapter extends BaseAdapter {
         PomodoroWork pomodoroWork= (PomodoroWork) getItem(position);
 
         viewHolder.txtWorkNameCustom.setText(pomodoroWork.workName);
-        viewHolder.txtWorkDateCustom.setText(pomodoroWork.workDate);
+        viewHolder.txtWorkDateCustom.setText("Thời gian bắt đầu: "+pomodoroWork.workDate+" - "+pomodoroWork.workTime);
         viewHolder.txtWorkSessionCustom.setText("Số phiên: "+pomodoroWork.workSession);
 
         return convertView;

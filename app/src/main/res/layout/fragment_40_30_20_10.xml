@@ -1,13 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff5">
+    android:background="@color/main_color_5"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="40-30-20-10"
-        android:layout_centerInParent="true"/>
-</RelativeLayout>
+        android:layout_alignParentLeft="true"
+        android:layout_margin="5dp"
+        android:text="Công cụ tính toán phân chia công việc"
+        android:textColor="@color/white_color"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thời gian bạn dành cho công việc:"
+            android:textColor="@color/white_color"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/editTextTimeForWork"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint=""
+            android:inputType="number" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Giờ"
+            android:textColor="@color/white_color"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thời gian 40% công việc là: "
+            android:textColor="@color/white_color"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/editTextTime40"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thời gian 30% công việc là: "
+            android:textColor="@color/white_color"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/editTextTime30"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thời gian 20% công việc là: "
+            android:textColor="@color/white_color"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/editTextTime20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thời gian 10% công việc là: "
+            android:textColor="@color/white_color"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/editTextTime10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:hint="" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonCalculatorTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tính toán thời gian" />
+
+        <Button
+            android:id="@+id/buttonResetTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đặt lại thời gian" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:textStyle="bold"
+                android:textColor="#E1FCC5"
+                android:id="@+id/textViewWork40"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/main_color_3"
+                android:gravity="center"
+                android:text="Chưa có công việc" />
+
+            <TextView
+                android:textStyle="bold"
+                android:textColor="#1d577a"
+                android:id="@+id/textViewWork30"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/main_color_2"
+                android:gravity="center"
+                android:text="Chưa có công việc" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:textStyle="bold"
+                android:textColor="#ffd6c8"
+                android:id="@+id/textViewWork20"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/main_color_6"
+                android:gravity="center"
+                android:text="Chưa có công việc" />
+
+            <TextView
+                android:textStyle="bold"
+                android:textColor="#ce2a63"
+                android:id="@+id/textViewWork10"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/main_color_6_1"
+                android:gravity="center"
+                android:text="Chưa có công việc" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

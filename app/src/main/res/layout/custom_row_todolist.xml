@@ -5,7 +5,8 @@
     android:layout_margin="5dp"
     android:weightSum="10"
     android:gravity="center"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@drawable/background_row_todolist">
 
     <CheckBox
         android:layout_gravity="left"
@@ -23,6 +24,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:textColor="@color/black_color"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:id="@+id/textViewToDoListWorkContent"
@@ -33,6 +35,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:textColor="@color/black_color"
             android:textSize="15sp"
             android:textStyle="italic"
             android:id="@+id/textViewToDoListWorkDue"

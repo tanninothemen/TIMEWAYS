@@ -34,13 +34,35 @@
             android:textSize="18sp" />
 
         <Spinner
-            android:id="@+id/spinnerEditEisenhowerTypeWork"
+            android:layout_margin="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp" />
+            android:layout_height="match_parent"
+            android:id="@+id/spinnerEditEisenhowerTypeWork"/>
     </LinearLayout>
 
     <LinearLayout
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editTextEisenhowerEditDateStart"
+            android:hint="Ngày bắt đầu"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/editTextEisenhowerEditDateEnd"
+            android:hint="Ngày kết thúc"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -55,12 +77,12 @@
             android:text="Hoàn thành" />
 
         <Button
-            android:id="@+id/buttonChangeTypeEisenhowerWorkDialog"
+            android:id="@+id/buttonEditEisenhowerWorkDialog"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:text="Chuyển khu vực" />
+            android:text="Chỉnh sửa" />
 
         <Button
             android:id="@+id/buttonDeleteEisenhowerWorkDialog"

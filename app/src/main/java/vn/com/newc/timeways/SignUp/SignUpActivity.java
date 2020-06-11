@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +56,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 presenter.getHandleRegistration(this, email, password, retypePassword);
                 break;
             case R.id.buttonBackToLogin:
+                Intent intent=new Intent(this, LoginActivity.class);
+                startActivity(intent);
                 break;
         }
     }
